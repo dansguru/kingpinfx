@@ -5,6 +5,7 @@ import RootStore from '@/stores/root-store';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import { Analytics } from '@deriv-com/analytics';
 import { OAuth2Logout, requestOidcAuthentication } from '@deriv-com/auth-client';
+import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 
 /**
  * Provides an object with properties: `oAuthLogout`, `retriggerOAuth2Login`, and `isSingleLoggingIn`.
@@ -59,7 +60,7 @@ export const useOauth2 = ({
         client?.setIsLoggingOut(true);
         try {
             await OAuth2Logout({
-                redirectCallbackUri: `${window.location.origin}/callback`,
+                redirectCallbackUri: getOAuthCallbackUrl(),
                 WSLogoutAndRedirect: handleLogout ?? (() => Promise.resolve()),
                 postLogoutRedirectUri: window.location.origin,
             }).catch(err => {
@@ -80,7 +81,7 @@ export const useOauth2 = ({
     const retriggerOAuth2Login = async () => {
         try {
             await requestOidcAuthentication({
-                redirectCallbackUri: `${window.location.origin}/callback`,
+                redirectCallbackUri: getOAuthCallbackUrl(),
                 postLogoutRedirectUri: window.location.origin,
             }).catch(err => {
                 handleOidcAuthFailure(err);

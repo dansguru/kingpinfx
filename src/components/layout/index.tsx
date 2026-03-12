@@ -11,6 +11,7 @@ import useTMB from '@/hooks/useTMB';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useDevice } from '@deriv-com/ui';
+import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import { crypto_currencies_display_order, fiat_currencies_display_order } from '../shared';
 import Footer from './footer';
 import AppHeader from './header';
@@ -169,7 +170,7 @@ const Layout = observer(() => {
                     }
                     try {
                         await requestOidcAuthentication({
-                            redirectCallbackUri: `${window.location.origin}/callback`,
+                            redirectCallbackUri: getOAuthCallbackUrl(),
                             ...(query_param_currency
                                 ? {
                                       state: {

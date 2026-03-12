@@ -10,6 +10,7 @@ import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountrie
 import { useApiBase } from '@/hooks/useApiBase';
 import { useStore } from '@/hooks/useStore';
 import useTMB from '@/hooks/useTMB';
+import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import { clearAuthData, handleOidcAuthFailure } from '@/utils/auth-utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons/Standalone';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
@@ -154,7 +155,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                                     // Always use OIDC if TMB is not enabled
                                     try {
                                         await requestOidcAuthentication({
-                                            redirectCallbackUri: `${window.location.origin}/callback`,
+                                            redirectCallbackUri: getOAuthCallbackUrl(),
                                             ...(query_param_currency
                                                 ? {
                                                       state: {

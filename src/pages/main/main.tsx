@@ -17,6 +17,7 @@ import { useOauth2 } from '@/hooks/auth/useOauth2';
 import { useApiBase } from '@/hooks/useApiBase';
 import { useStore } from '@/hooks/useStore';
 import useTMB from '@/hooks/useTMB';
+import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import {
     LabelPairedChartLineCaptionRegularIcon,
@@ -247,7 +248,7 @@ const AppWrapper = observer(() => {
                 } else {
                     try {
                         await requestOidcAuthentication({
-                            redirectCallbackUri: `${window.location.origin}/callback`,
+                            redirectCallbackUri: getOAuthCallbackUrl(),
                             ...(query_param_currency
                                 ? {
                                       state: {
