@@ -322,9 +322,7 @@ const AppWrapper = observer(() => {
                                         : 'id-charts'
                                 }
                             >
-                                <Suspense
-                                    fallback={<ChunkLoader message={localize('Please wait, loading chart...')} />}
-                                >
+                                <Suspense fallback={<ChunkLoader message={localize('Loading chart')} />}>
                                     <ChartWrapper show_digits_stats={false} />
                                 </Suspense>
                             </div>
@@ -343,11 +341,7 @@ const AppWrapper = observer(() => {
                                 id='id-tutorials'
                             >
                                 <div className='tutorials-wrapper'>
-                                    <Suspense
-                                        fallback={
-                                            <ChunkLoader message={localize('Please wait, loading tutorials...')} />
-                                        }
-                                    >
+                                    <Suspense fallback={<ChunkLoader message={localize('Loading tutorials')} />}>
                                         <Tutorial handleTabChange={handleTabChange} />
                                     </Suspense>
                                 </div>
@@ -366,11 +360,7 @@ const AppWrapper = observer(() => {
                                 id='id-free-bots'
                             >
                                 <div className='free-bots-wrapper'>
-                                    <Suspense
-                                        fallback={
-                                            <ChunkLoader message={localize('Please wait, loading free bots...')} />
-                                        }
-                                    >
+                                    <Suspense fallback={<ChunkLoader message={localize('Loading free bots')} />}>
                                         <FreeBots />
                                     </Suspense>
                                 </div>
@@ -389,11 +379,7 @@ const AppWrapper = observer(() => {
                                 id='id-analysis-tool'
                             >
                                 <div className='analysis-tool-wrapper'>
-                                    <Suspense
-                                        fallback={
-                                            <ChunkLoader message={localize('Please wait, loading analysis tool...')} />
-                                        }
-                                    >
+                                    <Suspense fallback={<ChunkLoader message={localize('Loading analysis tool')} />}>
                                         <AnalysisTool />
                                     </Suspense>
                                 </div>

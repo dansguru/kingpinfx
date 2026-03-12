@@ -388,6 +388,7 @@
 }
 
 .bot-builder {
+    display: none;
     position: absolute;
     top: 6.6rem;
     inset-inline-start: 1.6rem;
@@ -412,6 +413,7 @@
     }
 
     &--active {
+        display: block;
         z-index: 1;
     }
 

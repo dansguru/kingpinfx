@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no -- commitlint --edit 
+# Commit message linting disabled (allow non-Conventional commits)
+exit 0

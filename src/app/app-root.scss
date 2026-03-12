@@ -6,7 +6,42 @@
     justify-content: center;
     font-size: 1.6rem;
 
+    &.chunk-loader {
+        background: radial-gradient(1200px 600px at 50% 35%, rgb(0 0 0 / 4%), transparent 60%);
+    }
+
+    .chunk-loader__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2.4rem;
+    }
+
     .load-message {
-        margin-top: 6rem;
+        margin-top: 1.6rem;
+        color: var(--text-general);
+        max-width: 48rem;
+        line-height: 1.4;
+
+        &:not(:empty):after {
+            content: '...';
+            display: inline-block;
+            animation: chunk-loader-dots 1.2s steps(1, end) infinite;
+        }
+    }
+}
+
+@keyframes chunk-loader-dots {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
     }
 }

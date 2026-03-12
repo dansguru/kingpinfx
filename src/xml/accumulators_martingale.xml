@@ -1,4 +1,4 @@
-<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+<xml xmlns="http://www.w3.org/1999/xhtml" is_dbot="true" collection="false">
   <variables>
     <variable id="x]b3MHpbtR?cJQDP@,eG">martingale:resultIsWin</variable>
     <variable id="[M$5RsD`g|8-P;C+mbf4">martingale:profit</variable>

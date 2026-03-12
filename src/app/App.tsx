@@ -29,8 +29,8 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => {
     const { isOnline } = useOfflineDetection();
 
     const getLoadingMessage = () => {
-        if (!isOnline) return localize('Loading offline dashboard...');
-        return localize('Please wait while we connect to the server...');
+        if (!isOnline) return localize('Loading offline dashboard');
+        return localize('Connecting');
     };
 
     return <Suspense fallback={<ChunkLoader message={getLoadingMessage()} />}>{children}</Suspense>;

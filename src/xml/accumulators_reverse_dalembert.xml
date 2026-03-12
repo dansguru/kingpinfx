@@ -1,4 +1,4 @@
-<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+<xml xmlns="http://www.w3.org/1999/xhtml" is_dbot="true" collection="false">
   <variables>
     <variable id="M2a6~ns#)Z8]U2O_/=Fv">rdalembert:resultIsWin</variable>
     <variable id="j0[Hkhp,O~7]V~x(ah?j">rdalembert:profit</variable>

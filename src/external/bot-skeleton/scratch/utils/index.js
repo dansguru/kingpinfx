@@ -187,7 +187,7 @@ export const load = async ({
     }
     const blockConversion = new BlockConversion();
     xml = blockConversion.convertStrategy(xml, showIncompatibleStrategyDialog);
-    const blockly_xml = xml.querySelectorAll('block');
+    const blockly_xml = Array.from(xml.getElementsByTagName('block'));
 
     // Check if there are any blocks in this strategy.
     if (!blockly_xml.length) {
@@ -195,11 +195,21 @@ export const load = async ({
     }
 
     // Check if all block types in XML are allowed.
-    const has_invalid_blocks = Array.from(blockly_xml).some(block => {
+    const has_invalid_blocks = blockly_xml.some(block => {
         const block_type = block.getAttribute('type');
         return !Object.keys(window.Blockly.Blocks).includes(block_type);
     });
     if (has_invalid_blocks) {
+        const invalid_block_types = Array.from(
+            new Set(
+                blockly_xml
+                    .map(block => block.getAttribute('type'))
+                    .filter(block_type => block_type && !Object.keys(window.Blockly.Blocks).includes(block_type))
+            )
+        );
+        if (invalid_block_types.length) {
+            globalObserver.emit('ui.log.error', `${localize('Unsupported blocks')}: ${invalid_block_types.join(', ')}`);
+        }
         return showInvalidStrategyError();
     }
 
