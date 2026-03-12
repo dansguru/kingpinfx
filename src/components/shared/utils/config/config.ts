@@ -85,7 +85,13 @@ export const getAppId = () => {
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() ?? '';
 
-    if (config_app_id) {
+    // If we're on a known production domain, always prefer its configured app_id.
+    // This prevents stale local overrides from breaking OAuth in production.
+    if (current_domain && domain_app_ids[current_domain as keyof typeof domain_app_ids]) {
+        return domain_app_ids[current_domain as keyof typeof domain_app_ids];
+    }
+
+    if (config_app_id && (isTestLink() || isStaging() || !current_domain)) {
         app_id = config_app_id;
     } else if (isStaging()) {
         app_id = APP_IDS.STAGING;
@@ -189,5 +195,8 @@ export const generateOAuthURL = () => {
             }
         }
     }
+
+    // Ensure we always use this app's chosen app_id (Deriv OAuth validates it strictly).
+    original_url.searchParams.set('app_id', String(getAppId()));
     return original_url.toString() || oauth_url;
 };
