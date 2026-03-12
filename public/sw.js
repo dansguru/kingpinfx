@@ -18,7 +18,17 @@ self.addEventListener('install', event => {
                 console.log('[SW] Caching precache URLs');
 
                 // Cache essential files
-                await cache.addAll(PRECACHE_URLS);
+                // cache.addAll fails the entire install if any single entry is missing (404).
+                // Cache entries individually to avoid breaking SW install on partial deployments.
+                await Promise.all(
+                    PRECACHE_URLS.map(async url => {
+                        try {
+                            await cache.add(url);
+                        } catch (e) {
+                            console.warn('[SW] Skipping missing precache entry:', url, e);
+                        }
+                    })
+                );
                 console.log('[SW] Precache URLs cached successfully');
 
                 // Force activation

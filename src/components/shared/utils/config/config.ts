@@ -10,6 +10,12 @@ export const APP_IDS = {
     PRODUCTION: 65555,
     PRODUCTION_BE: 65556,
     PRODUCTION_ME: 65557,
+    // WebSocket API app_id (numeric). OAuth client ids are handled separately.
+    KINGPINFX: 65555,
+};
+
+// OAuth client ids (used by Deriv OAuth/OIDC)
+export const OAUTH_APP_IDS = {
     KINGPINFX: '32GDkuVxLy21Nq6g8RGWc',
 };
 
@@ -25,6 +31,10 @@ export const domain_app_ids = {
     'dbot.deriv.com': APP_IDS.PRODUCTION,
     'dbot.deriv.be': APP_IDS.PRODUCTION_BE,
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
+};
+
+const domain_oauth_app_ids: Record<string, string> = {
+    'kingpinfx.vercel.app': OAUTH_APP_IDS.KINGPINFX,
 };
 
 export const getCurrentProductionDomain = () =>
@@ -102,6 +112,25 @@ export const getAppId = () => {
     }
 
     return app_id;
+};
+
+export const getOAuthAppId = () => {
+    const oauth_app_id = domain_oauth_app_ids[window.location.hostname];
+    if (oauth_app_id) return oauth_app_id;
+
+    // Fallback to the WS app_id if we don't have an OAuth client id configured.
+    return String(getAppId());
+};
+
+export const ensureOidcClientId = () => {
+    const oauth_app_id = domain_oauth_app_ids[window.location.hostname];
+    if (!oauth_app_id) return;
+
+    // @deriv-com/auth-client reads client_id from localStorage `config.app_id`.
+    // Keep it set for custom domains while still allowing WS app_id to be numeric.
+    if (localStorage.getItem('config.app_id') !== oauth_app_id) {
+        localStorage.setItem('config.app_id', oauth_app_id);
+    }
 };
 
 export const getSocketURL = () => {
@@ -197,6 +226,7 @@ export const generateOAuthURL = () => {
     }
 
     // Ensure we always use this app's chosen app_id (Deriv OAuth validates it strictly).
-    original_url.searchParams.set('app_id', String(getAppId()));
+    ensureOidcClientId();
+    original_url.searchParams.set('app_id', String(getOAuthAppId()));
     return original_url.toString() || oauth_url;
 };

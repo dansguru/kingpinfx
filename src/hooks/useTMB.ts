@@ -173,6 +173,15 @@ const useTMB = (): UseTMBReturn => {
             return window.is_tmb_enabled === true;
         }
 
+        // TMB session APIs require first-party Deriv domains (CORS + cookies).
+        // Disable it for unsupported domains (e.g. custom Vercel deployments).
+        if (!domains.includes(currentDomain)) {
+            window.is_tmb_enabled = false;
+            setIsTmbEnabled(false);
+            tmbStatusDeterminedRef.current = true;
+            return false;
+        }
+
         // If we're already in the process of determining the status, wait for that promise
         if (tmbStatusPromiseRef.current) {
             return tmbStatusPromiseRef.current;
