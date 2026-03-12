@@ -7,6 +7,7 @@ import {
     showDigitalOptionsUnavailableError,
     standalone_routes,
 } from '@/components/shared';
+import { isDerivOidcCallbackUrl } from '@/components/shared/utils/config/config';
 import { api_base, ApiHelpers, DBot, runIrreversibleEvents } from '@/external/bot-skeleton';
 import { setCurrency } from '@/external/bot-skeleton/scratch/utils';
 import { TApiHelpersStore } from '@/types/stores.types';
@@ -90,7 +91,7 @@ export default class AppStore {
         // When isSingleLoggingIn is true, we don't want to show the EU error message
         const is_tmb_enabled = window.is_tmb_enabled === true;
         const isSingleLoggingIn =
-            window.location.pathname === '/callback' ||
+            isDerivOidcCallbackUrl() ||
             (Cookies.get('logged_state') === 'true' &&
                 !is_tmb_enabled &&
                 Object.keys(JSON.parse(localStorage.getItem('accountsList') || '{}')).length === 0);

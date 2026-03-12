@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { generateOAuthURL } from '@/components/shared';
+import { isDerivOidcCallbackUrl } from '@/components/shared/utils/config/config';
 import { removeCookies } from '@/components/shared/utils/storage/storage';
 import { api_base } from '@/external/bot-skeleton';
 import { setAuthData } from '@/external/bot-skeleton/services/api/observables/connection-status-stream';
@@ -50,7 +51,7 @@ const useTMB = (): UseTMBReturn => {
     }
 
     // const isEndpointPage = useMemo(() => window.location.pathname.includes('endpoint'), []);
-    const isCallbackPage = useMemo(() => window.location.pathname === '/callback', []);
+    const isCallbackPage = useMemo(() => isDerivOidcCallbackUrl(), []);
     const domains = useMemo(
         () => ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'],
         []

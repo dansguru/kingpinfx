@@ -5,7 +5,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import ChunkLoader from '@/components/loader/chunk-loader';
 import RoutePromptDialog from '@/components/route-prompt-dialog';
 import { crypto_currencies_display_order, fiat_currencies_display_order } from '@/components/shared';
-import { ensureOidcClientId } from '@/components/shared/utils/config/config';
+import { ensureOidcClientId, isDerivOidcCallbackUrl } from '@/components/shared/utils/config/config';
 import { useOfflineDetection } from '@/hooks/useOfflineDetection';
 import { StoreProvider } from '@/hooks/useStore';
 import CallbackPage from '@/pages/callback';
@@ -37,6 +37,10 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => {
     return <Suspense fallback={<ChunkLoader message={getLoadingMessage()} />}>{children}</Suspense>;
 };
 
+const IndexOrCallback = () => {
+    return isDerivOidcCallbackUrl() ? <CallbackPage /> : <AppRoot />;
+};
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route
@@ -55,7 +59,7 @@ const router = createBrowserRouter(
             }
         >
             {/* All child routes will be passed as children to Layout */}
-            <Route index element={<AppRoot />} />
+            <Route index element={<IndexOrCallback />} />
             <Route path='endpoint' element={<Endpoint />} />
             <Route path='callback' element={<CallbackPage />} />
             <Route path='free-bots' element={<FreeBots />} />

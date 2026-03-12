@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { observer } from 'mobx-react-lite';
 import { Outlet } from 'react-router-dom';
 import PWAUpdateNotification from '@/components/pwa-update-notification';
+import { getOAuthCallbackUrl, isDerivOidcCallbackUrl } from '@/components/shared/utils/config/config';
 import { api_base } from '@/external/bot-skeleton';
 import { useOfflineDetection } from '@/hooks/useOfflineDetection';
 import { useStore } from '@/hooks/useStore';
@@ -11,7 +12,6 @@ import useTMB from '@/hooks/useTMB';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useDevice } from '@deriv-com/ui';
-import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import { crypto_currencies_display_order, fiat_currencies_display_order } from '../shared';
 import Footer from './footer';
 import AppHeader from './header';
@@ -24,7 +24,7 @@ const Layout = observer(() => {
     const store = useStore();
     const is_quick_strategy_active = store?.quick_strategy?.is_open;
 
-    const isCallbackPage = window.location.pathname === '/callback';
+    const isCallbackPage = isDerivOidcCallbackUrl();
     const { onRenderTMBCheck, is_tmb_enabled: tmb_enabled_from_hook, isTmbEnabled } = useTMB();
     const is_tmb_enabled = useMemo(
         () => window.is_tmb_enabled === true || tmb_enabled_from_hook,

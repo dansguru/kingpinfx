@@ -102,7 +102,9 @@ const CallbackPage = () => {
                 // Determine the appropriate currency to use
                 const selected_currency = getSelectedCurrency(tokens, clientAccounts, state);
 
-                window.location.replace(window.location.origin + `bot/?account=${selected_currency}`);
+                const nextUrl = new URL('/', window.location.origin);
+                nextUrl.searchParams.set('account', selected_currency);
+                window.location.replace(nextUrl.toString());
             }}
             renderReturnButton={() => {
                 return (

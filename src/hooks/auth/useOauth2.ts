@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { getOAuthCallbackUrl, isDerivOidcCallbackUrl } from '@/components/shared/utils/config/config';
 import RootStore from '@/stores/root-store';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import { Analytics } from '@deriv-com/analytics';
 import { OAuth2Logout, requestOidcAuthentication } from '@deriv-com/auth-client';
-import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 
 /**
  * Provides an object with properties: `oAuthLogout`, `retriggerOAuth2Login`, and `isSingleLoggingIn`.
@@ -32,8 +32,7 @@ export const useOauth2 = ({
     const [isSingleLoggingIn, setIsSingleLoggingIn] = useState(false);
     const accountsList = JSON.parse(localStorage.getItem('accountsList') ?? '{}');
     const isClientAccountsPopulated = Object.keys(accountsList).length > 0;
-    const isSilentLoginExcluded =
-        window.location.pathname.includes('callback') || window.location.pathname.includes('endpoint');
+    const isSilentLoginExcluded = isDerivOidcCallbackUrl() || window.location.pathname.includes('endpoint');
 
     const loggedState = Cookies.get('logged_state');
 

@@ -133,16 +133,35 @@ export const ensureOidcClientId = () => {
     }
 };
 
+export const isDerivOidcCallbackUrl = () => {
+    const { pathname, search, hash } = window.location;
+    if (pathname === '/callback') return true;
+
+    const params = new URLSearchParams(search);
+    const hasOidcQueryParams =
+        params.has('code') ||
+        params.has('error') ||
+        params.has('error_description') ||
+        params.has('access_token') ||
+        params.has('id_token') ||
+        params.has('session_state');
+
+    const hasOidcHashParams = /(^|[&#])(access_token|id_token|error)=/i.test(hash);
+
+    return hasOidcQueryParams || hasOidcHashParams;
+};
+
 export const getOAuthCallbackUrl = () => {
     // Deriv validates redirect_uri strictly. If the app is accessed via a preview URL
     // (e.g. `*.vercel.app` deployment), force the canonical redirect back to the
     // registered domain to avoid redirect_uri mismatch errors.
     const host = window.location.hostname;
     if (host.endsWith('.vercel.app') && host !== 'kingpinfx.vercel.app') {
-        return 'https://kingpinfx.vercel.app/callback';
+        return 'https://kingpinfx.vercel.app/';
     }
 
-    return `${window.location.origin}/callback`;
+    // Keep trailing slash: Deriv treats redirect_uri as a strict, exact match.
+    return new URL('/', window.location.origin).toString();
 };
 
 export const getSocketURL = () => {
