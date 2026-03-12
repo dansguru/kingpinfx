@@ -10,12 +10,14 @@ export const APP_IDS = {
     PRODUCTION: 65555,
     PRODUCTION_BE: 65556,
     PRODUCTION_ME: 65557,
+    KINGPINFX: '32GDkuVxLy21Nq6g8RGWc',
 };
 
 export const livechat_license_id = 12049137;
 export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
+    'kingpinfx.vercel.app': APP_IDS.KINGPINFX,
     'master.bot-standalone.pages.dev': APP_IDS.TMP_STAGING,
     'staging-dbot.deriv.com': APP_IDS.STAGING,
     'staging-dbot.deriv.be': APP_IDS.STAGING_BE,
@@ -116,7 +118,10 @@ export const checkAndSetEndpointFromUrl = () => {
             url_params.delete('qa_server');
             url_params.delete('app_id');
 
-            if (/^(^(www\.)?qa[0-9]{1,4}\.deriv.dev|(.*)\.derivws\.com)$/.test(qa_server) && /^[0-9]+$/.test(app_id)) {
+            if (
+                /^(^(www\.)?qa[0-9]{1,4}\.deriv.dev|(.*)\.derivws\.com)$/.test(qa_server) &&
+                /^[a-zA-Z0-9]+$/.test(app_id)
+            ) {
                 localStorage.setItem('config.app_id', app_id);
                 localStorage.setItem('config.server_url', qa_server.replace(/"/g, ''));
             }
