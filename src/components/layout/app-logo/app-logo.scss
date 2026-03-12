@@ -6,5 +6,37 @@
         height: 32px;
         display: flex;
         align-items: center;
+        gap: 0.8rem;
+        text-decoration: none;
+    }
+}
+
+.kp-brand {
+    color: var(--text-general);
+
+    &:hover {
+        color: var(--button-primary-default);
+    }
+
+    &__mark {
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        background: var(--button-primary-default);
+        color: var(--general-main-1, #fff);
+        flex: 0 0 auto;
+    }
+
+    &__text {
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: inherit;
+        line-height: 1;
+        white-space: nowrap;
     }
 }

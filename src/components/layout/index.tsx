@@ -169,6 +169,10 @@ const Layout = observer(() => {
                         sessionStorage.setItem('query_param_currency', query_param_currency);
                     }
                     try {
+                        if (localStorage.getItem('debug.oidc') === '1') {
+                            // eslint-disable-next-line no-console
+                            console.log('[OIDC] redirectCallbackUri:', getOAuthCallbackUrl());
+                        }
                         await requestOidcAuthentication({
                             redirectCallbackUri: getOAuthCallbackUrl(),
                             ...(query_param_currency

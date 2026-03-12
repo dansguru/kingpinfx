@@ -320,7 +320,7 @@ async function handleOfflineFallback(request) {
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Offline - Deriv Bot</title>
+                <title>Offline - KingpinFX Bot</title>
                 <style>
                     body { 
                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -339,7 +339,7 @@ async function handleOfflineFallback(request) {
                         padding: 40px 20px;
                     }
                     h1 { 
-                        color: #ff444f; 
+                        color: #2563eb; 
                         font-size: 2.5rem;
                         margin-bottom: 1rem;
                     }
@@ -350,7 +350,7 @@ async function handleOfflineFallback(request) {
                         opacity: 0.9;
                     }
                     button { 
-                        background: #ff444f; 
+                        background: #2563eb; 
                         color: white; 
                         border: none; 
                         padding: 15px 30px; 
@@ -361,21 +361,21 @@ async function handleOfflineFallback(request) {
                         transition: background-color 0.2s;
                     }
                     button:hover {
-                        background: #e63946;
+                        background: #1d4ed8;
                     }
                     .status {
                         margin-top: 2rem;
                         padding: 15px;
-                        background: rgba(255, 68, 79, 0.1);
+                        background: rgba(37, 99, 235, 0.12);
                         border-radius: 8px;
-                        border-left: 4px solid #ff444f;
+                        border-left: 4px solid #2563eb;
                     }
                 </style>
             </head>
             <body>
                 <div class="container">
                     <h1>You're Offline</h1>
-                    <p>Deriv Bot requires an internet connection to function properly. Please check your connection and try again.</p>
+                    <p>KingpinFX Bot requires an internet connection to function properly. Please check your connection and try again.</p>
                     <button onclick="window.location.reload()">Try Again</button>
                     <div class="status">
                         <strong>Connection Status:</strong> <span id="status">Offline</span>

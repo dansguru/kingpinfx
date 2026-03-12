@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import PWAInstallButton from '@/components/pwa-install-button';
 import { generateOAuthURL, standalone_routes } from '@/components/shared';
+import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import Button from '@/components/shared_ui/button';
 import useActiveAccount from '@/hooks/api/account/useActiveAccount';
 import { useOauth2 } from '@/hooks/auth/useOauth2';
@@ -10,7 +11,6 @@ import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountrie
 import { useApiBase } from '@/hooks/useApiBase';
 import { useStore } from '@/hooks/useStore';
 import useTMB from '@/hooks/useTMB';
-import { getOAuthCallbackUrl } from '@/components/shared/utils/config/config';
 import { clearAuthData, handleOidcAuthFailure } from '@/utils/auth-utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons/Standalone';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
@@ -154,6 +154,10 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                                 } else {
                                     // Always use OIDC if TMB is not enabled
                                     try {
+                                        if (localStorage.getItem('debug.oidc') === '1') {
+                                            // eslint-disable-next-line no-console
+                                            console.log('[OIDC] redirectCallbackUri:', getOAuthCallbackUrl());
+                                        }
                                         await requestOidcAuthentication({
                                             redirectCallbackUri: getOAuthCallbackUrl(),
                                             ...(query_param_currency

@@ -152,16 +152,20 @@ export const isDerivOidcCallbackUrl = () => {
 };
 
 export const getOAuthCallbackUrl = () => {
+    const local_redirect_override =
+        localStorage.getItem('config.oidc_redirect_uri') || localStorage.getItem('config.redirect_uri');
+    if (local_redirect_override) return local_redirect_override;
+
     // Deriv validates redirect_uri strictly. If the app is accessed via a preview URL
     // (e.g. `*.vercel.app` deployment), force the canonical redirect back to the
     // registered domain to avoid redirect_uri mismatch errors.
     const host = window.location.hostname;
     if (host.endsWith('.vercel.app') && host !== 'kingpinfx.vercel.app') {
-        return 'https://kingpinfx.vercel.app/';
+        return 'https://kingpinfx.vercel.app';
     }
 
-    // Keep trailing slash: Deriv treats redirect_uri as a strict, exact match.
-    return new URL('/', window.location.origin).toString();
+    // Deriv treats redirect_uri as a strict, exact match; avoid an auto-added trailing slash.
+    return window.location.origin;
 };
 
 export const getSocketURL = () => {

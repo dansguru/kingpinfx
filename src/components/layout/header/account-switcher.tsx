@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { lazy, Suspense, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { CurrencyIcon } from '@/components/currency/currency-icon';
+import DotsLoader from '@/components/loader/dots-loader';
 import { addComma, getDecimalPlaces } from '@/components/shared';
 import Popover from '@/components/shared_ui/popover';
 import { api_base } from '@/external/bot-skeleton';
@@ -11,7 +12,7 @@ import { useStore } from '@/hooks/useStore';
 import { waitForDomElement } from '@/utils/dom-observer';
 import { Analytics } from '@deriv-com/analytics';
 import { localize } from '@deriv-com/translations';
-import { AccountSwitcher as UIAccountSwitcher, Loader, useDevice } from '@deriv-com/ui';
+import { AccountSwitcher as UIAccountSwitcher, useDevice } from '@deriv-com/ui';
 import DemoAccounts from './common/demo-accounts';
 import RealAccounts from './common/real-accounts';
 import { TAccountSwitcher, TAccountSwitcherProps, TModifiedAccount } from './common/types';
@@ -164,7 +165,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
     return (
         activeAccount &&
         (has_wallet ? (
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<DotsLoader aria-label='Loading accounts' />}>
                 <AccountInfoWallets is_dialog_on={is_accounts_switcher_on} toggleDialog={toggleAccountsDialog} />
             </Suspense>
         ) : (

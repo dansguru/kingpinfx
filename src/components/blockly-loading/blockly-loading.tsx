@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
+import DotsLoader from '@/components/loader/dots-loader';
 import { useStore } from '@/hooks/useStore';
-import { Loader } from '@deriv-com/ui';
 
 const BlocklyLoading = observer(() => {
     const { blockly_store } = useStore();
@@ -10,7 +10,7 @@ const BlocklyLoading = observer(() => {
         <>
             {is_loading && (
                 <div className='bot__loading' data-testid='blockly-loader'>
-                    <Loader />
+                    <DotsLoader size='md' aria-label='Loading Blockly' />
                     <div>Loading Blockly...</div>
                 </div>
             )}

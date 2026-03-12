@@ -1,0 +1,62 @@
+.kp-dots-loader {
+    --kp-dots-size: 0.8rem;
+    --kp-dots-gap: 0.6rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kp-dots-gap);
+    color: var(--button-primary-default);
+}
+
+.kp-dots-loader--sm {
+    --kp-dots-size: 0.6rem;
+    --kp-dots-gap: 0.5rem;
+}
+
+.kp-dots-loader--md {
+    --kp-dots-size: 0.8rem;
+    --kp-dots-gap: 0.6rem;
+}
+
+.kp-dots-loader--lg {
+    --kp-dots-size: 1rem;
+    --kp-dots-gap: 0.75rem;
+}
+
+.kp-dots-loader--fullscreen {
+    position: fixed;
+    inset: 0;
+    background: var(--general-main-1, #fff);
+    z-index: 9999;
+}
+
+.kp-dots-loader__dot {
+    width: var(--kp-dots-size);
+    height: var(--kp-dots-size);
+    border-radius: 999px;
+    background: currentcolor;
+    opacity: 0.3;
+    animation: kp-dots-bounce 1.05s infinite ease-in-out;
+}
+
+.kp-dots-loader__dot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.kp-dots-loader__dot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes kp-dots-bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+
+    40% {
+        transform: translateY(-0.35rem);
+        opacity: 0.95;
+    }
+}
