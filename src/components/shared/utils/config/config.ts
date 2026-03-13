@@ -157,12 +157,13 @@ export const getOAuthCallbackUrl = () => {
     if (local_redirect_override) return local_redirect_override;
 
     // Deriv validates redirect_uri strictly.
-    // For KingpinFX in production, always use the canonical callback URL that is
-    // registered in the new Deriv API dashboard:
-    //   https://kingpinfx.vercel.app/callback
+    // For KingpinFX in production, always use the canonical origin URL:
+    //   https://kingpinfx.vercel.app
     //
+    // Make sure this exact URL (without trailing slash) is registered as an
+    // OAuth redirect URL for your app in the new Deriv API dashboard.
     // Other environments (local / QA) can override this via localStorage above.
-    return 'https://kingpinfx.vercel.app/callback';
+    return 'https://kingpinfx.vercel.app';
 };
 
 export const getSocketURL = () => {
