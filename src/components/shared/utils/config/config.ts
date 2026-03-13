@@ -260,8 +260,9 @@ export const generateOAuthURL = () => {
         }
     }
 
-    // Ensure we always use this app's chosen app_id (Deriv OAuth validates it strictly).
+    // Ensure we always use this app's chosen app_id and redirect_uri (Deriv OAuth validates both strictly).
     ensureOidcClientId();
     original_url.searchParams.set('app_id', String(getOAuthAppId()));
+    original_url.searchParams.set('redirect_uri', getOAuthCallbackUrl());
     return original_url.toString() || oauth_url;
 };

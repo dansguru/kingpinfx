@@ -1,5 +1,5 @@
-// Comprehensive Service Worker for Deriv Bot Offline Functionality
-const CACHE_NAME = 'deriv-bot-v1';
+// Comprehensive Service Worker for KingpinFX Bot Offline Functionality
+const CACHE_NAME = 'kingpinfx-bot-v2';
 const OFFLINE_URL = '/offline.html';
 
 // Files to cache immediately on install
@@ -205,6 +205,11 @@ async function handleStaticAsset(request) {
     try {
         console.log('[SW] Handling static asset:', request.url);
 
+        // Range requests (e.g. audio/video seeking) return partial content (206) which Cache API can't store.
+        if (request.headers.has('range')) {
+            return fetch(request);
+        }
+
         // Check cache first for static assets
         const cachedResponse = await caches.match(request);
         if (cachedResponse) {
@@ -215,11 +220,16 @@ async function handleStaticAsset(request) {
         // Try network
         const networkResponse = await fetch(request);
 
-        if (networkResponse.ok) {
-            // Cache successful responses
-            const cache = await caches.open(CACHE_NAME);
-            await cache.put(request, networkResponse.clone());
-            console.log('[SW] Cached static asset');
+        // Never cache partial responses (206) or errors.
+        if (networkResponse.ok && networkResponse.status !== 206) {
+            try {
+                // Cache successful responses
+                const cache = await caches.open(CACHE_NAME);
+                await cache.put(request, networkResponse.clone());
+                console.log('[SW] Cached static asset');
+            } catch (e) {
+                console.warn('[SW] Skipping cache.put for static asset:', request.url, e);
+            }
         }
 
         return networkResponse;
@@ -273,13 +283,22 @@ async function handleGenericRequest(request) {
     try {
         console.log('[SW] Handling generic request:', request.url);
 
+        // Don't attempt to cache range/partial responses.
+        if (request.headers.has('range')) {
+            return fetch(request);
+        }
+
         // Try network first
         const networkResponse = await fetch(request);
 
-        if (networkResponse.ok) {
-            // Cache successful responses
-            const cache = await caches.open(CACHE_NAME);
-            await cache.put(request, networkResponse.clone());
+        if (networkResponse.ok && networkResponse.status !== 206) {
+            try {
+                // Cache successful responses
+                const cache = await caches.open(CACHE_NAME);
+                await cache.put(request, networkResponse.clone());
+            } catch (e) {
+                console.warn('[SW] Skipping cache.put for request:', request.url, e);
+            }
         }
 
         return networkResponse;
